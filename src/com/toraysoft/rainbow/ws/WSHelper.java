@@ -17,6 +17,7 @@ import com.toraysoft.rainbow.generator.ProtocolGenerator.PROTOCOL_TYPE;
 import com.toraysoft.rainbow.generator.ProtocolGenerator.QOS_TYPE;
 import com.toraysoft.rainbow.listener.WebSocketClientListener;
 import com.toraysoft.rainbow.util.LogUtil;
+import com.toraysoft.rainbow.util.TextUtils;
 import com.toraysoft.rainbow.Rainbow;
 
 public class WSHelper {
@@ -256,15 +257,18 @@ public class WSHelper {
 					+ " --- msgId:" + ProtocolGenerator.getMessageId(msgId)
 					+ " --- data:" + dataStr);
 			if (mRainbow.getRainbowListener() != null) {
-				mRainbow.getRainbowListener().onRainbowMessage(msgTypeStr,
+				String res = mRainbow.getRainbowListener().onRainbowMessage(msgTypeStr,
 						dataStr);
+				byte[] resbytes = null;
+				if(res != null)
+					resbytes = res.getBytes();
+				if (client != null)
+					client.send(FrameController.getRainbowAck(mRainbow, msgId, resbytes)
+							.getFrames());
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		if (client != null)
-			client.send(FrameController.getRainbowAck(mRainbow, msgId, null)
-					.getFrames());
 	}
 
 	private void wsParseRainbowSendOnlyOnes(byte[] msgType, byte[] msgId,
@@ -277,15 +281,18 @@ public class WSHelper {
 					+ " --- msgId:" + ProtocolGenerator.getMessageId(msgId)
 					+ " --- data:" + dataStr);
 			if (mRainbow.getRainbowListener() != null) {
-				mRainbow.getRainbowListener().onRainbowMessage(msgTypeStr,
+				String res = mRainbow.getRainbowListener().onRainbowMessage(msgTypeStr,
 						dataStr);
+				byte[] resbytes = null;
+				if(res != null)
+					resbytes = res.getBytes();
+				if (client != null)
+					client.send(FrameController.getRainbowRec(mRainbow, msgId, resbytes)
+							.getFrames());
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		if (client != null)
-			client.send(FrameController.getRainbowRec(mRainbow, msgId, null)
-					.getFrames());
 	}
 
 	private void wsParseRainbowAck(byte[] frame) {

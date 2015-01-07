@@ -3,7 +3,7 @@ package com.toraysoft.rainbow.util;
 public class LogUtil {
 
 	static final String TAG = "Rainbow";
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 
 	public static void d(String msg) {
 		if (DEBUG) {

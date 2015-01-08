@@ -19,6 +19,7 @@ public class Rainbow {
 	private RainbowListener mRainbowListener;
 	private MessageIDGenerator mMessageIDGenerator;
 	private RainbowController mRainbowController;
+	private boolean DEBUG = false;
 
 	public Rainbow() {
 		mRainbowFactory = new RainbowFactory(this);
@@ -100,4 +101,12 @@ public class Rainbow {
 		return mRainbowController;
 	}
 
+	public boolean isDebug() {
+		return DEBUG;
+	}
+
+	public void setDebug(boolean debug) {
+		DEBUG = debug;
+	}
+	
 }

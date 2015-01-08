@@ -22,7 +22,8 @@ public class RainbowController {
 	public boolean putRequestControllerLocal(int msgId, RequestController r) {
 		if (localRequest != null) {
 			localRequest.put(msgId, r);
-			LogUtil.v(TAG, "putRequestControllerLocal msgId:" + msgId);
+			if(mRainbow.isDebug())
+				LogUtil.d(TAG, "putRequestControllerLocal msgId:" + msgId);
 			return true;
 		}
 		return false;
@@ -30,7 +31,8 @@ public class RainbowController {
 
 	public void removeRequestControllerLocal(int msgId) {
 		if (localRequest != null) {
-			LogUtil.v(TAG, "removeRequestControllerLocal msgId:" + msgId);
+			if(mRainbow.isDebug())
+				LogUtil.d(TAG, "removeRequestControllerLocal msgId:" + msgId);
 			localRequest.remove(msgId);
 		}
 	}
@@ -52,7 +54,8 @@ public class RainbowController {
 	public boolean putRequestServer(int msgId, byte[] data) {
 		if (serverRequest != null) {
 			serverRequest.put(msgId, data);
-			LogUtil.v(TAG, "putRequestServer msgId:" + msgId);
+			if(mRainbow.isDebug())
+				LogUtil.d(TAG, "putRequestServer msgId:" + msgId);
 			return true;
 		}
 		return false;
@@ -60,7 +63,8 @@ public class RainbowController {
 
 	public void removeRequestServer(int msgId) {
 		if (serverRequest != null) {
-			LogUtil.v(TAG, "removeRequestServer msgId:" + msgId);
+			if(mRainbow.isDebug())
+				LogUtil.d(TAG, "removeRequestServer msgId:" + msgId);
 			serverRequest.remove(msgId);
 		}
 	}

@@ -151,21 +151,21 @@ public class RainbowFrame {
 		byte[] bytes = new byte[1];
 		bytes[0] = headerByte;
 		if (msgType != null && msgType.length > 0) {
-			LogUtil.v(TAG, "createRainbowFrameBytes hava msgType!!!");
+			LogUtil.d(TAG, "createRainbowFrameBytes hava msgType!!!");
 			byte[] mBytes = new byte[bytes.length + msgType.length];
 			System.arraycopy(bytes, 0, mBytes, 0, bytes.length);
 			System.arraycopy(msgType, 0, mBytes, bytes.length, msgType.length);
 			bytes = mBytes;
 		}
 		if (msgId != null && msgId.length > 0) {
-			LogUtil.v(TAG, "createRainbowFrameBytes hava msgId!!!");
+			LogUtil.d(TAG, "createRainbowFrameBytes hava msgId!!!");
 			byte[] mBytes = new byte[bytes.length + msgId.length];
 			System.arraycopy(bytes, 0, mBytes, 0, bytes.length);
 			System.arraycopy(msgId, 0, mBytes, bytes.length, msgId.length);
 			bytes = mBytes;
 		}
 		if (data != null && data.length > 0) {
-			LogUtil.v(TAG, "createRainbowFrameBytes hava data!!!");
+			LogUtil.d(TAG, "createRainbowFrameBytes hava data!!!");
 			byte[] mBytes = new byte[bytes.length + data.length];
 			System.arraycopy(bytes, 0, mBytes, 0, bytes.length);
 			System.arraycopy(data, 0, mBytes, bytes.length, data.length);

@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import org.apache.http.message.BasicNameValuePair;
 
+import com.toraysoft.rainbow.Rainbow;
 import com.toraysoft.rainbow.controller.FrameController;
 import com.toraysoft.rainbow.controller.RequestController;
 import com.toraysoft.rainbow.generator.ProtocolGenerator;
@@ -17,8 +18,6 @@ import com.toraysoft.rainbow.generator.ProtocolGenerator.PROTOCOL_TYPE;
 import com.toraysoft.rainbow.generator.ProtocolGenerator.QOS_TYPE;
 import com.toraysoft.rainbow.listener.WebSocketClientListener;
 import com.toraysoft.rainbow.util.LogUtil;
-import com.toraysoft.rainbow.util.TextUtils;
-import com.toraysoft.rainbow.Rainbow;
 
 public class WSHelper {
 
@@ -58,7 +57,8 @@ public class WSHelper {
 	}
 
 	public void connect() {
-		LogUtil.e(TAG, "client connect : " + client);
+		if(mRainbow.isDebug())
+			LogUtil.d(TAG, "client connect : " + client);
 		if (client != null) {
 			if (headers != null)
 				headers.clear();
@@ -76,10 +76,8 @@ public class WSHelper {
 				try {
 					mRainbow.getHeartBeatService().stop();
 				} catch (Throwable t) {
-					LogUtil.e(
-							TAG,
-							"Disconnect heartbeat service error : "
-									+ t.getMessage());
+					if(mRainbow.isDebug())
+						LogUtil.d(TAG, "Disconnect heartbeat service error : " + t.getMessage());
 				}
 			}
 			client.disconnect();
@@ -123,13 +121,15 @@ public class WSHelper {
 
 		@Override
 		public void onMessage(String message) {
-			LogUtil.e(TAG, "WebSocketClient.Listener onMessage : " + message);
+			if(mRainbow.isDebug())
+				LogUtil.d(TAG, "WebSocketClient.Listener onMessage : " + message);
 		}
 
 		@Override
 		public void onError(Exception error) {
-			LogUtil.e(TAG,
-					"WebSocketClient.Listener onError : " + error.getMessage());
+			if(mRainbow.isDebug())
+				LogUtil.d(TAG,
+						"WebSocketClient.Listener onError : " + error.getMessage());
 			isConnected = false;
 			if (mRainbow.getRainbowListener() != null) {
 				mRainbow.getRainbowListener().onRainbowConnectionError(
@@ -141,8 +141,9 @@ public class WSHelper {
 
 		@Override
 		public void onDisconnect(int code, String reason) {
-			LogUtil.e(TAG, "WebSocketClient.Listener onDisconnect : code="
-					+ code + " -- reason=" + reason);
+			if(mRainbow.isDebug())
+				LogUtil.d(TAG, "WebSocketClient.Listener onDisconnect : code="
+						+ code + " -- reason=" + reason);
 			isConnected = false;
 			if (mRainbow.getRainbowListener() != null) {
 				mRainbow.getRainbowListener().onRainbowDisconnect(code, reason);
@@ -153,7 +154,8 @@ public class WSHelper {
 
 		@Override
 		public void onConnect() {
-			LogUtil.e(TAG, "WebSocketClient.Listener onConnect");
+			if(mRainbow.isDebug())
+				LogUtil.d(TAG, "WebSocketClient.Listener onConnect");
 			isConnected = true;
 			if (mRainbow.getRainbowListener() != null) {
 				mRainbow.getRainbowListener().onRainbowConnect();
@@ -163,8 +165,9 @@ public class WSHelper {
 					mRainbow.getHeartBeatService().doInBackground();
 					LogUtil.d(TAG, "Start send heart beat now!!!!!!!!!");
 				} catch (Throwable t) {
-					LogUtil.e(TAG,
-							"Start heartbeat service error : " + t.getMessage());
+					if(mRainbow.isDebug())
+						LogUtil.d(TAG,
+								"Start heartbeat service error : " + t.getMessage());
 				}
 			}
 		}
@@ -305,7 +308,7 @@ public class WSHelper {
 					0, data.length);
 		}
 		try {
-			if (LogUtil.DEBUG) {
+			if(mRainbow.isDebug()) {
 				String log = "wsParseRainbowAck: msgId:"
 						+ ProtocolGenerator.getMessageId(msgId) + " --- data:"
 						+ new String(data, CHARSET);
@@ -344,7 +347,7 @@ public class WSHelper {
 		}
 		int msgIdInt = ProtocolGenerator.getMessageId(msgId);
 		try {
-			if (LogUtil.DEBUG) {
+			if(mRainbow.isDebug()) {
 				String log = "wsParseRainbowRec: msgId:" + msgIdInt
 						+ " --- data:" + new String(data, CHARSET);
 				LogUtil.d(TAG, log);
@@ -367,7 +370,7 @@ public class WSHelper {
 		byte[] msgId = new byte[ProtocolGenerator.COMMON_BYTE_LEGTH];
 		System.arraycopy(frame, ProtocolGenerator.SECOND_BYTE_OFFSET, msgId, 0,
 				ProtocolGenerator.COMMON_BYTE_LEGTH);
-		if (LogUtil.DEBUG) {
+		if(mRainbow.isDebug()) {
 			String log = "wsParseRainbowRel: msgId:"
 					+ ProtocolGenerator.getMessageId(msgId);
 			LogUtil.d(TAG, log);

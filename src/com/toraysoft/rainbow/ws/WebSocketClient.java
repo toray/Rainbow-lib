@@ -107,7 +107,7 @@ public class WebSocketClient {
 					out.print("Sec-WebSocket-Version: 13\r\n");
 					if (mExtraHeaders != null) {
 						for (NameValuePair pair : mExtraHeaders) {
-							LogUtil.v("" + pair.getName(), "" + pair.getValue());
+//							LogUtil.d("" + pair.getName(), "" + pair.getValue());
 							out.print(String.format("%s: %s\r\n",
 									pair.getName(), pair.getValue()));
 						}
@@ -157,16 +157,16 @@ public class WebSocketClient {
 					mParser.start(stream);
 
 				} catch (EOFException ex) {
-					LogUtil.e(TAG, "WebSocket EOF!");
+					LogUtil.d(TAG, "WebSocket EOF!");
 					mListener.onDisconnect(0, "EOF");
 
 				} catch (SSLException ex) {
 					// Connection reset by peer
-					LogUtil.e(TAG, "Websocket SSL error!");
+					LogUtil.d(TAG, "Websocket SSL error!");
 					mListener.onDisconnect(0, "SSL");
 
 				} catch (Exception ex) {
-					LogUtil.e(TAG, "Websocket error!");
+					LogUtil.d(TAG, "Websocket error!");
 					mListener.onError(ex);
 				}
 			}

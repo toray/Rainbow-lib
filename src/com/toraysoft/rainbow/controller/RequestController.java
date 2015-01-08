@@ -3,7 +3,7 @@ package com.toraysoft.rainbow.controller;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.toraysoft.rainbow.common.RainbowFactory;
+import com.toraysoft.rainbow.common.RainbowMeta;
 import com.toraysoft.rainbow.common.RainbowFrame;
 import com.toraysoft.rainbow.generator.ProtocolGenerator;
 import com.toraysoft.rainbow.listener.OnRainbowRequestListener;
@@ -24,8 +24,8 @@ public class RequestController {
 				getRequestID(), this);
 		send();
 		mTimer = new Timer(true);
-		mTimer.schedule(mTimerTask, RainbowFactory.WEBSOCKE_TTIMEOUT,
-				RainbowFactory.WEBSOCKE_TTIMEOUT);
+		mTimer.schedule(mTimerTask, RainbowMeta.WEBSOCKE_TTIMEOUT,
+				RainbowMeta.WEBSOCKE_TTIMEOUT);
 	}
 
 	TimerTask mTimerTask = new TimerTask() {
@@ -34,7 +34,7 @@ public class RequestController {
 		public void run() {
 			if (isSending) {
 				if (System.currentTimeMillis() - mRainbowFrame.getRequestTime() < mRainbow
-						.getRainbowFactory().getRainbowTimeout()) {
+						.getRainbowMeta().getRainbowTimeout()) {
 					resend();
 				} else {
 					finish();

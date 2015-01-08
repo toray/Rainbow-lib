@@ -37,10 +37,10 @@ public class WSHelper {
 		if (headers != null) {
 			headers.clear();
 		}
-		headers = getExtraHeaders(mRainbow.getRainbowFactory().getHeaders());
-		client = new WebSocketClient(URI.create(mRainbow.getRainbowFactory()
+		headers = getExtraHeaders(mRainbow.getRainbowMeta().getHeaders());
+		client = new WebSocketClient(URI.create(mRainbow.getRainbowMeta()
 				.getHost()), mListener, headers);
-		autoReconnect = mRainbow.getRainbowFactory().isAutoReconnect();
+		autoReconnect = mRainbow.getRainbowMeta().isAutoReconnect();
 		client.connect();
 	}
 
@@ -62,7 +62,7 @@ public class WSHelper {
 		if (client != null) {
 			if (headers != null)
 				headers.clear();
-			headers = getExtraHeaders(mRainbow.getRainbowFactory().getHeaders());
+			headers = getExtraHeaders(mRainbow.getRainbowMeta().getHeaders());
 			client.setExtraHeaders(headers);
 			client.connect();
 		}
@@ -71,8 +71,8 @@ public class WSHelper {
 	public void disconnect() {
 		if (client != null) {
 			autoReconnect = false;
-			mRainbow.getRainbowFactory().setAutoReconnect(false);
-			if (mRainbow.getRainbowFactory().isHeartBeatActive()) {
+			mRainbow.getRainbowMeta().setAutoReconnect(false);
+			if (mRainbow.getRainbowMeta().isHeartBeatActive()) {
 				try {
 					mRainbow.getHeartBeatService().stop();
 				} catch (Throwable t) {
@@ -160,7 +160,7 @@ public class WSHelper {
 			if (mRainbow.getRainbowListener() != null) {
 				mRainbow.getRainbowListener().onRainbowConnect();
 			}
-			if (!mRainbow.getRainbowFactory().isHeartBeatActive()) {
+			if (!mRainbow.getRainbowMeta().isHeartBeatActive()) {
 				try {
 					mRainbow.getHeartBeatService().doInBackground();
 					LogUtil.d(TAG, "Start send heart beat now!!!!!!!!!");
@@ -237,7 +237,7 @@ public class WSHelper {
 	private void wsParseRainbowSendNormal(byte[] msgType, byte[] data) {
 		try {
 			String dataStr = new String(data, CHARSET);
-			String msgTypeStr = mRainbow.getRainbowFactory().getMsgTypeKey(
+			String msgTypeStr = mRainbow.getRainbowMeta().getMsgTypeKey(
 					msgType);
 			LogUtil.d(TAG, "wsParseRainbowSendNormal: msgType:" + msgTypeStr
 					+ " --- data:" + dataStr);
@@ -254,7 +254,7 @@ public class WSHelper {
 			byte[] data) {
 		try {
 			String dataStr = new String(data, CHARSET);
-			String msgTypeStr = mRainbow.getRainbowFactory().getMsgTypeKey(
+			String msgTypeStr = mRainbow.getRainbowMeta().getMsgTypeKey(
 					msgType);
 			LogUtil.d(TAG, "wsParseRainbowSendLeastOne: msgType:" + msgTypeStr
 					+ " --- msgId:" + ProtocolGenerator.getMessageId(msgId)
@@ -278,7 +278,7 @@ public class WSHelper {
 			byte[] data) {
 		try {
 			String dataStr = new String(data, CHARSET);
-			String msgTypeStr = mRainbow.getRainbowFactory().getMsgTypeKey(
+			String msgTypeStr = mRainbow.getRainbowMeta().getMsgTypeKey(
 					msgType);
 			LogUtil.d(TAG, "wsParseRainbowSendOnlyOne: msgType:" + msgTypeStr
 					+ " --- msgId:" + ProtocolGenerator.getMessageId(msgId)

@@ -1,6 +1,8 @@
 package com.toraysoft.rainbow;
 
-import com.toraysoft.rainbow.common.RainbowFactory;
+import java.util.Map;
+
+import com.toraysoft.rainbow.common.RainbowMeta;
 import com.toraysoft.rainbow.controller.FrameController;
 import com.toraysoft.rainbow.controller.RainbowController;
 import com.toraysoft.rainbow.controller.RequestController;
@@ -13,7 +15,7 @@ import com.toraysoft.rainbow.ws.WSHelper;
 
 public class Rainbow {
 
-	private RainbowFactory mRainbowFactory;
+	private RainbowMeta mRainbowMeta;
 	private WSHelper mWSHelper;
 	private HeartBeatService mHeartBeatService;
 	private RainbowListener mRainbowListener;
@@ -21,16 +23,21 @@ public class Rainbow {
 	private RainbowController mRainbowController;
 	private boolean DEBUG = false;
 
-	public Rainbow() {
-		mRainbowFactory = new RainbowFactory(this);
-		mWSHelper = new WSHelper(this);
-		mHeartBeatService = new HeartBeatService(this);
-		mMessageIDGenerator = new MessageIDGenerator(this);
-		mRainbowController = new RainbowController(this);
+	public Rainbow(RainbowBuilder builder) {
+		mRainbowMeta = new RainbowMeta(Rainbow.this);
+		mWSHelper = new WSHelper(Rainbow.this);
+		mHeartBeatService = new HeartBeatService(Rainbow.this);
+		mMessageIDGenerator = new MessageIDGenerator(Rainbow.this);
+		mRainbowController = new RainbowController(Rainbow.this);
+		setRainbowListener(builder.getRainbowListener());
+		getRainbowMeta().setAutoReconnect(builder.getAutoReconnect())
+				.setHost(builder.getRainbowHost())
+				.setRainbowTimeout(builder.getRainbowTimeout())
+				.setMsgType(builder.getRainbowMsgType());
 	}
 
-	public RainbowFactory getRainbowFactory() {
-		return mRainbowFactory;
+	public RainbowMeta getRainbowMeta() {
+		return mRainbowMeta;
 	}
 
 	public WSHelper getWsHelper() {
@@ -51,6 +58,14 @@ public class Rainbow {
 
 	public MessageIDGenerator getMessageIDGenerator() {
 		return mMessageIDGenerator;
+	}
+
+	public void setRainbowHeaders(Map<String, String> headers) {
+		mRainbowMeta.setHeaders(headers);
+	}
+
+	public void initClient() {
+		getWsHelper().wsClient();
 	}
 
 	public void send(String msgType, byte[] data, QOS_TYPE type,
@@ -108,5 +123,5 @@ public class Rainbow {
 	public void setDebug(boolean debug) {
 		DEBUG = debug;
 	}
-	
+
 }

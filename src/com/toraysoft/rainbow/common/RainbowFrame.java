@@ -47,7 +47,7 @@ public class RainbowFrame {
 		this.qos = typeQOS;
 		this.msgId = msgId;
 		this.msgTypeKey = msgTypeKey;
-		this.msgType = rainbow.getRainbowFactory().getMsgTypeByte(msgTypeKey);
+		this.msgType = rainbow.getRainbowMeta().getMsgTypeByte(msgTypeKey);
 		this.data = data;
 		this.requestTime = System.currentTimeMillis();
 		this.frames = createRainbowFrameBytes();

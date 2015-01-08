@@ -27,7 +27,7 @@ public class HeartBeatService {
 
 	public void doInBackground() {
 		LogUtil.d(TAG, "HeartBeatService started!!!!!");
-		mRainbow.getRainbowFactory().setHeartBeatActive(true);
+		mRainbow.getRainbowMeta().setHeartBeatActive(true);
 		mTimer = new Timer(true);
 		mTimer.schedule(mTimerTask, TIME, TIME);
 	}
@@ -35,7 +35,7 @@ public class HeartBeatService {
 	public void stop() {
 		LogUtil.d(TAG, "HeartBeatService stoped!!!!!");
 		mTimer.cancel();
-		mRainbow.getRainbowFactory().setHeartBeatActive(false);
+		mRainbow.getRainbowMeta().setHeartBeatActive(false);
 	}
 
 	private void sendHeartBeat() {

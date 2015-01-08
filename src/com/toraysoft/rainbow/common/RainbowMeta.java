@@ -6,9 +6,9 @@ import java.util.Map.Entry;
 import com.toraysoft.rainbow.Rainbow;
 import com.toraysoft.rainbow.util.ByteUtil;
 
-public class RainbowFactory {
+public class RainbowMeta {
 
-	private RainbowFactory instance;
+	private RainbowMeta instance;
 	private Rainbow mRainbow;
 
 	private String HOST;
@@ -16,11 +16,11 @@ public class RainbowFactory {
 	private Map<String, String> headers;
 	private boolean isHeartBeatActive = false;
 	private int rainbowTimeout;
-	public static final int WEBSOCKE_TTIMEOUT = 5000;
+	public static int WEBSOCKE_TTIMEOUT = 5000;
 
 	public Map<String, byte[]> msgTypeMap;
 
-	public RainbowFactory(Rainbow rainbow) {
+	public RainbowMeta(Rainbow rainbow) {
 		instance = this;
 		this.mRainbow = mRainbow;
 	}
@@ -29,7 +29,7 @@ public class RainbowFactory {
 		return autoReconnect;
 	}
 
-	public RainbowFactory setAutoReconnect(boolean value) {
+	public RainbowMeta setAutoReconnect(boolean value) {
 		this.autoReconnect = value;
 		return instance;
 	}
@@ -38,7 +38,7 @@ public class RainbowFactory {
 		return HOST;
 	}
 
-	public RainbowFactory setHost(String host) {
+	public RainbowMeta setHost(String host) {
 		HOST = host;
 		return instance;
 	}
@@ -47,7 +47,7 @@ public class RainbowFactory {
 		return headers;
 	}
 
-	public RainbowFactory setHeaders(Map<String, String> headers) {
+	public RainbowMeta setHeaders(Map<String, String> headers) {
 		this.headers = headers;
 		return instance;
 	}
@@ -64,7 +64,7 @@ public class RainbowFactory {
 		return rainbowTimeout;
 	}
 
-	public RainbowFactory setRainbowTimeout(int time) {
+	public RainbowMeta setRainbowTimeout(int time) {
 		this.rainbowTimeout = time;
 		return instance;
 	}
@@ -73,7 +73,7 @@ public class RainbowFactory {
 		return msgTypeMap;
 	}
 
-	public RainbowFactory setMsgType(Map<String, byte[]> msgtypemap) {
+	public RainbowMeta setMsgType(Map<String, byte[]> msgtypemap) {
 		this.msgTypeMap = msgtypemap;
 		return instance;
 	}

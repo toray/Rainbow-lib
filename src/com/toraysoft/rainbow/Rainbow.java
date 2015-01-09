@@ -23,17 +23,12 @@ public class Rainbow {
 	private RainbowController mRainbowController;
 	private boolean DEBUG = false;
 
-	public Rainbow(RainbowBuilder builder) {
+	public Rainbow() {
 		mRainbowMeta = new RainbowMeta(Rainbow.this);
 		mWSHelper = new WSHelper(Rainbow.this);
 		mHeartBeatService = new HeartBeatService(Rainbow.this);
 		mMessageIDGenerator = new MessageIDGenerator(Rainbow.this);
 		mRainbowController = new RainbowController(Rainbow.this);
-		setRainbowListener(builder.getRainbowListener());
-		getRainbowMeta().setAutoReconnect(builder.getAutoReconnect())
-				.setHost(builder.getRainbowHost())
-				.setRainbowTimeout(builder.getRainbowTimeout())
-				.setMsgType(builder.getRainbowMsgType());
 	}
 
 	public RainbowMeta getRainbowMeta() {
@@ -99,6 +94,12 @@ public class Rainbow {
 				msgType, data, l));
 	}
 
+	public void connect() {
+		if (mWSHelper != null) {
+			mWSHelper.connect();
+		}
+	}
+
 	public void disconnect() {
 		if (mWSHelper != null) {
 			mWSHelper.disconnect();
@@ -122,6 +123,71 @@ public class Rainbow {
 
 	public void setDebug(boolean debug) {
 		DEBUG = debug;
+	}
+
+	public static class Builder {
+
+		private RainbowListener listener;
+		private String host;
+		private int timeout;
+		private boolean autoReconnect;
+		private Map<String, byte[]> msgtypemap;
+
+		public Builder setAutoReconnect(boolean value) {
+			this.autoReconnect = value;
+			return this;
+		}
+
+		public boolean getAutoReconnect() {
+			return autoReconnect;
+		}
+
+		public Builder setRainbowListener(RainbowListener l) {
+			this.listener = l;
+			return this;
+		}
+
+		public RainbowListener getRainbowListener() {
+			return listener;
+		}
+
+		public Builder setRainbowHost(String host) {
+			this.host = host;
+			return this;
+		}
+
+		public String getRainbowHost() {
+			return host;
+		}
+
+		public Builder setRainbowTimeout(int sec) {
+			this.timeout = sec;
+			return this;
+		}
+
+		public int getRainbowTimeout() {
+			return timeout;
+		}
+
+		public Builder setRainbowMsgType(Map<String, byte[]> msgtypemap) {
+			this.msgtypemap = msgtypemap;
+			return this;
+		}
+
+		public Map<String, byte[]> getRainbowMsgType() {
+			return msgtypemap;
+		}
+
+		public Rainbow create() {
+			Rainbow rainbow = new Rainbow();
+			rainbow.setRainbowListener(getRainbowListener());
+			rainbow.getRainbowMeta().setAutoReconnect(getAutoReconnect())
+					.setHost(getRainbowHost())
+					.setRainbowTimeout(getRainbowTimeout())
+					.setMsgType(getRainbowMsgType());
+			return rainbow;
+		}
+
 	}
 
 }

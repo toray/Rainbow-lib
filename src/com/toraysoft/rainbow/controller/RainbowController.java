@@ -1,6 +1,7 @@
 package com.toraysoft.rainbow.controller;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import com.toraysoft.rainbow.Rainbow;
@@ -22,7 +23,7 @@ public class RainbowController {
 	public boolean putRequestControllerLocal(int msgId, RequestController r) {
 		if (localRequest != null) {
 			localRequest.put(msgId, r);
-			if(mRainbow.isDebug())
+			if (mRainbow.isDebug())
 				LogUtil.d(TAG, "putRequestControllerLocal msgId:" + msgId);
 			return true;
 		}
@@ -31,7 +32,7 @@ public class RainbowController {
 
 	public void removeRequestControllerLocal(int msgId) {
 		if (localRequest != null) {
-			if(mRainbow.isDebug())
+			if (mRainbow.isDebug())
 				LogUtil.d(TAG, "removeRequestControllerLocal msgId:" + msgId);
 			localRequest.remove(msgId);
 		}
@@ -54,7 +55,7 @@ public class RainbowController {
 	public boolean putRequestServer(int msgId, byte[] data) {
 		if (serverRequest != null) {
 			serverRequest.put(msgId, data);
-			if(mRainbow.isDebug())
+			if (mRainbow.isDebug())
 				LogUtil.d(TAG, "putRequestServer msgId:" + msgId);
 			return true;
 		}
@@ -63,7 +64,7 @@ public class RainbowController {
 
 	public void removeRequestServer(int msgId) {
 		if (serverRequest != null) {
-			if(mRainbow.isDebug())
+			if (mRainbow.isDebug())
 				LogUtil.d(TAG, "removeRequestServer msgId:" + msgId);
 			serverRequest.remove(msgId);
 		}
@@ -83,4 +84,21 @@ public class RainbowController {
 		return false;
 	}
 
+	public void cleanAllRequestTimeout() {
+		if (localRequest != null) {
+			Iterator iter = localRequest.entrySet().iterator();
+			while (iter.hasNext()) {
+				Map.Entry entry = (Map.Entry) iter.next();
+				RequestController request = (RequestController) entry
+						.getValue();
+				if (request != null) {
+					request.finish();
+					if (request.getOnRainbowRequestListener() != null) {
+						request.getOnRainbowRequestListener().onTimeout();
+					}
+				}
+			}
+			localRequest.clear();
+		}
+	}
 }

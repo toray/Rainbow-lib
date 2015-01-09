@@ -57,7 +57,7 @@ public class WSHelper {
 	}
 
 	public void connect() {
-		if(mRainbow.isDebug())
+		if (mRainbow.isDebug())
 			LogUtil.d(TAG, "client connect : " + client);
 		if (client != null) {
 			if (headers != null)
@@ -76,10 +76,12 @@ public class WSHelper {
 				try {
 					mRainbow.getHeartBeatService().stop();
 				} catch (Throwable t) {
-					if(mRainbow.isDebug())
-						LogUtil.d(TAG, "Disconnect heartbeat service error : " + t.getMessage());
+					if (mRainbow.isDebug())
+						LogUtil.d(TAG, "Disconnect heartbeat service error : "
+								+ t.getMessage());
 				}
 			}
+			mRainbow.getRainbowController().cleanAllRequestTimeout();
 			client.disconnect();
 			client = null;
 		}
@@ -102,7 +104,7 @@ public class WSHelper {
 	}
 
 	public void send(byte[] data) {
-		if (client != null) {
+		if (client != null && isConnected) {
 			try {
 				LogUtil.d(TAG, "------->>>send:" + new String(data, "UTF-8"));
 			} catch (UnsupportedEncodingException e) {
@@ -121,15 +123,18 @@ public class WSHelper {
 
 		@Override
 		public void onMessage(String message) {
-			if(mRainbow.isDebug())
-				LogUtil.d(TAG, "WebSocketClient.Listener onMessage : " + message);
+			if (mRainbow.isDebug())
+				LogUtil.d(TAG, "WebSocketClient.Listener onMessage : "
+						+ message);
 		}
 
 		@Override
 		public void onError(Exception error) {
-			if(mRainbow.isDebug())
-				LogUtil.d(TAG,
-						"WebSocketClient.Listener onError : " + error.getMessage());
+			if (mRainbow.isDebug())
+				LogUtil.d(
+						TAG,
+						"WebSocketClient.Listener onError : "
+								+ error.getMessage());
 			isConnected = false;
 			if (mRainbow.getRainbowListener() != null) {
 				mRainbow.getRainbowListener().onRainbowConnectionError(
@@ -141,7 +146,7 @@ public class WSHelper {
 
 		@Override
 		public void onDisconnect(int code, String reason) {
-			if(mRainbow.isDebug())
+			if (mRainbow.isDebug())
 				LogUtil.d(TAG, "WebSocketClient.Listener onDisconnect : code="
 						+ code + " -- reason=" + reason);
 			isConnected = false;
@@ -154,7 +159,7 @@ public class WSHelper {
 
 		@Override
 		public void onConnect() {
-			if(mRainbow.isDebug())
+			if (mRainbow.isDebug())
 				LogUtil.d(TAG, "WebSocketClient.Listener onConnect");
 			isConnected = true;
 			if (mRainbow.getRainbowListener() != null) {
@@ -165,9 +170,11 @@ public class WSHelper {
 					mRainbow.getHeartBeatService().doInBackground();
 					LogUtil.d(TAG, "Start send heart beat now!!!!!!!!!");
 				} catch (Throwable t) {
-					if(mRainbow.isDebug())
-						LogUtil.d(TAG,
-								"Start heartbeat service error : " + t.getMessage());
+					if (mRainbow.isDebug())
+						LogUtil.d(
+								TAG,
+								"Start heartbeat service error : "
+										+ t.getMessage());
 				}
 			}
 		}
@@ -237,8 +244,8 @@ public class WSHelper {
 	private void wsParseRainbowSendNormal(byte[] msgType, byte[] data) {
 		try {
 			String dataStr = new String(data, CHARSET);
-			String msgTypeStr = mRainbow.getRainbowMeta().getMsgTypeKey(
-					msgType);
+			String msgTypeStr = mRainbow.getRainbowMeta()
+					.getMsgTypeKey(msgType);
 			LogUtil.d(TAG, "wsParseRainbowSendNormal: msgType:" + msgTypeStr
 					+ " --- data:" + dataStr);
 			if (mRainbow.getRainbowListener() != null) {
@@ -254,20 +261,20 @@ public class WSHelper {
 			byte[] data) {
 		try {
 			String dataStr = new String(data, CHARSET);
-			String msgTypeStr = mRainbow.getRainbowMeta().getMsgTypeKey(
-					msgType);
+			String msgTypeStr = mRainbow.getRainbowMeta()
+					.getMsgTypeKey(msgType);
 			LogUtil.d(TAG, "wsParseRainbowSendLeastOne: msgType:" + msgTypeStr
 					+ " --- msgId:" + ProtocolGenerator.getMessageId(msgId)
 					+ " --- data:" + dataStr);
 			if (mRainbow.getRainbowListener() != null) {
-				String res = mRainbow.getRainbowListener().onRainbowMessage(msgTypeStr,
-						dataStr);
+				String res = mRainbow.getRainbowListener().onRainbowMessage(
+						msgTypeStr, dataStr);
 				byte[] resbytes = null;
-				if(res != null)
+				if (res != null)
 					resbytes = res.getBytes();
 				if (client != null)
-					client.send(FrameController.getRainbowAck(mRainbow, msgId, resbytes)
-							.getFrames());
+					client.send(FrameController.getRainbowAck(mRainbow, msgId,
+							resbytes).getFrames());
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -278,20 +285,20 @@ public class WSHelper {
 			byte[] data) {
 		try {
 			String dataStr = new String(data, CHARSET);
-			String msgTypeStr = mRainbow.getRainbowMeta().getMsgTypeKey(
-					msgType);
+			String msgTypeStr = mRainbow.getRainbowMeta()
+					.getMsgTypeKey(msgType);
 			LogUtil.d(TAG, "wsParseRainbowSendOnlyOne: msgType:" + msgTypeStr
 					+ " --- msgId:" + ProtocolGenerator.getMessageId(msgId)
 					+ " --- data:" + dataStr);
 			if (mRainbow.getRainbowListener() != null) {
-				String res = mRainbow.getRainbowListener().onRainbowMessage(msgTypeStr,
-						dataStr);
+				String res = mRainbow.getRainbowListener().onRainbowMessage(
+						msgTypeStr, dataStr);
 				byte[] resbytes = null;
-				if(res != null)
+				if (res != null)
 					resbytes = res.getBytes();
 				if (client != null)
-					client.send(FrameController.getRainbowRec(mRainbow, msgId, resbytes)
-							.getFrames());
+					client.send(FrameController.getRainbowRec(mRainbow, msgId,
+							resbytes).getFrames());
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -308,7 +315,7 @@ public class WSHelper {
 					0, data.length);
 		}
 		try {
-			if(mRainbow.isDebug()) {
+			if (mRainbow.isDebug()) {
 				String log = "wsParseRainbowAck: msgId:"
 						+ ProtocolGenerator.getMessageId(msgId) + " --- data:"
 						+ new String(data, CHARSET);
@@ -347,7 +354,7 @@ public class WSHelper {
 		}
 		int msgIdInt = ProtocolGenerator.getMessageId(msgId);
 		try {
-			if(mRainbow.isDebug()) {
+			if (mRainbow.isDebug()) {
 				String log = "wsParseRainbowRec: msgId:" + msgIdInt
 						+ " --- data:" + new String(data, CHARSET);
 				LogUtil.d(TAG, log);
@@ -370,7 +377,7 @@ public class WSHelper {
 		byte[] msgId = new byte[ProtocolGenerator.COMMON_BYTE_LEGTH];
 		System.arraycopy(frame, ProtocolGenerator.SECOND_BYTE_OFFSET, msgId, 0,
 				ProtocolGenerator.COMMON_BYTE_LEGTH);
-		if(mRainbow.isDebug()) {
+		if (mRainbow.isDebug()) {
 			String log = "wsParseRainbowRel: msgId:"
 					+ ProtocolGenerator.getMessageId(msgId);
 			LogUtil.d(TAG, log);

@@ -63,7 +63,7 @@ public class Rainbow {
 		getWsHelper().wsClient();
 	}
 
-	public void send(String msgType, byte[] data, QOS_TYPE type,
+	public void send(byte[] msgType, byte[] data, QOS_TYPE type,
 			OnRainbowRequestListener l) {
 		if (type == QOS_TYPE.QOS_NORMAL) {
 			sendRainbowNromal(msgType, data, l);
@@ -74,7 +74,7 @@ public class Rainbow {
 		}
 	}
 
-	private void sendRainbowNromal(String msgType, byte[] data,
+	private void sendRainbowNromal(byte[] msgType, byte[] data,
 			OnRainbowRequestListener l) {
 		if (mWSHelper != null) {
 			mWSHelper.send(FrameController.getRainbowSendNormal(this, msgType,
@@ -82,13 +82,13 @@ public class Rainbow {
 		}
 	}
 
-	private void sendRainbowLeastOnes(String msgType, byte[] data,
+	private void sendRainbowLeastOnes(byte[] msgType, byte[] data,
 			OnRainbowRequestListener l) {
 		new RequestController(this, FrameController.getRainbowSendLeastOne(
 				this, msgType, data, l));
 	}
 
-	private void sendRainbowOnlyOnes(String msgType, byte[] data,
+	private void sendRainbowOnlyOnes(byte[] msgType, byte[] data,
 			OnRainbowRequestListener l) {
 		new RequestController(this, FrameController.getRainbowSendOnlyOne(this,
 				msgType, data, l));
@@ -131,7 +131,6 @@ public class Rainbow {
 		private String host;
 		private int timeout;
 		private boolean autoReconnect;
-		private Map<String, byte[]> msgtypemap;
 
 		public Builder setAutoReconnect(boolean value) {
 			this.autoReconnect = value;
@@ -169,22 +168,12 @@ public class Rainbow {
 			return timeout;
 		}
 
-		public Builder setRainbowMsgType(Map<String, byte[]> msgtypemap) {
-			this.msgtypemap = msgtypemap;
-			return this;
-		}
-
-		public Map<String, byte[]> getRainbowMsgType() {
-			return msgtypemap;
-		}
-
 		public Rainbow create() {
 			Rainbow rainbow = new Rainbow();
 			rainbow.setRainbowListener(getRainbowListener());
 			rainbow.getRainbowMeta().setAutoReconnect(getAutoReconnect())
 					.setHost(getRainbowHost())
-					.setRainbowTimeout(getRainbowTimeout())
-					.setMsgType(getRainbowMsgType());
+					.setRainbowTimeout(getRainbowTimeout());
 			return rainbow;
 		}
 

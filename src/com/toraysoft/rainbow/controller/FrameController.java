@@ -8,33 +8,33 @@ import com.toraysoft.rainbow.Rainbow;
 public class FrameController {
 
 	public static RainbowFrame getRainbowSendNormal(Rainbow rainbow,
-			String msgTypeKey, byte[] data, OnRainbowRequestListener l) {
+			byte[] msgType, byte[] data, OnRainbowRequestListener l) {
 		return RainbowGenerator.getSendFrameNormal(rainbow, false, null,
-				msgTypeKey, data, l);
+				msgType, data, l);
 	}
 
 	public static RainbowFrame getRainbowSendLeastOne(Rainbow rainbow,
-			String msgTypeKey, byte[] data, OnRainbowRequestListener l) {
+			byte[] msgType, byte[] data, OnRainbowRequestListener l) {
 		return RainbowGenerator.getSendFrameLeastOne(rainbow, false, rainbow
-				.getMessageIDGenerator().getMsgIdByte(), msgTypeKey, data, l);
+				.getMessageIDGenerator().getMsgIdByte(), msgType, data, l);
 	}
 
 	public static RainbowFrame getRainbowSendLeastOne(Rainbow rainbow,
-			boolean isResend, byte[] msgId, String msgTypeKey, byte[] data, OnRainbowRequestListener l) {
+			boolean isResend, byte[] msgId, byte[] msgType, byte[] data, OnRainbowRequestListener l) {
 		return RainbowGenerator.getSendFrameLeastOne(rainbow, isResend, msgId,
-				msgTypeKey, data, l);
+				msgType, data, l);
 	}
 
 	public static RainbowFrame getRainbowSendOnlyOne(Rainbow rainbow,
-			String msgTypeKey, byte[] data, OnRainbowRequestListener l) {
+			byte[] msgType, byte[] data, OnRainbowRequestListener l) {
 		return RainbowGenerator.getSendFrameOnlyOne(rainbow, false, rainbow
-				.getMessageIDGenerator().getMsgIdByte(), msgTypeKey, data, l);
+				.getMessageIDGenerator().getMsgIdByte(), msgType, data, l);
 	}
 
 	public static RainbowFrame getRainbowSendOnlyOne(Rainbow rainbow,
-			boolean isResend, byte[] msgId, String msgTypeKey, byte[] data, OnRainbowRequestListener l) {
+			boolean isResend, byte[] msgId, byte[] msgType, byte[] data, OnRainbowRequestListener l) {
 		return RainbowGenerator.getSendFrameOnlyOne(rainbow, isResend, msgId,
-				msgTypeKey, data, l);
+				msgType, data, l);
 	}
 
 	public static RainbowFrame getRainbowAck(Rainbow rainbow, byte[] msgId,

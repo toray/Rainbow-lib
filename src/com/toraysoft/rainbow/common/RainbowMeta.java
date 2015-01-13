@@ -1,10 +1,8 @@
 package com.toraysoft.rainbow.common;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.toraysoft.rainbow.Rainbow;
-import com.toraysoft.rainbow.util.ByteUtil;
 
 public class RainbowMeta {
 
@@ -69,27 +67,4 @@ public class RainbowMeta {
 		return instance;
 	}
 
-	public Map<String, byte[]> getMsgType() {
-		return msgTypeMap;
-	}
-
-	public RainbowMeta setMsgType(Map<String, byte[]> msgtypemap) {
-		this.msgTypeMap = msgtypemap;
-		return instance;
-	}
-
-	public byte[] getMsgTypeByte(String msgType) {
-		return msgTypeMap.get(msgType);
-	}
-
-	public String getMsgTypeKey(byte[] value) {
-		if (msgTypeMap != null) {
-			for (Entry<String, byte[]> e : msgTypeMap.entrySet()) {
-				if (ByteUtil.getIntShort(e.getValue()) == ByteUtil.getIntShort(value)) {
-					return e.getKey();
-				}
-			}
-		}
-		return null;
-	}
 }

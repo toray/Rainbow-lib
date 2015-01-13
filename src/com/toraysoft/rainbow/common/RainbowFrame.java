@@ -14,7 +14,6 @@ public class RainbowFrame {
 	private boolean isResend; // 是否重发
 	private QOS_TYPE qos; // 数据包质量控制
 	private byte[] msgId; // 数据包消息ID
-	private String msgTypeKey; // 消息类型名称
 	private byte[] msgType; // 数据包消息类型
 	private byte[] data; // 数据包内容
 	private byte[] responseData; // 返回数据
@@ -40,14 +39,13 @@ public class RainbowFrame {
 	}
 
 	public RainbowFrame(Rainbow rainbow, boolean isResend, byte[] msgId,
-			String msgTypeKey, byte[] data, PROTOCOL_TYPE typeProtocol,
+			byte[] msgType, byte[] data, PROTOCOL_TYPE typeProtocol,
 			QOS_TYPE typeQOS, OnRainbowRequestListener l) {
 		this.requestType = typeProtocol;
 		this.isResend = isResend;
 		this.qos = typeQOS;
 		this.msgId = msgId;
-		this.msgTypeKey = msgTypeKey;
-		this.msgType = rainbow.getRainbowMeta().getMsgTypeByte(msgTypeKey);
+		this.msgType = msgType;
 		this.data = data;
 		this.requestTime = System.currentTimeMillis();
 		this.frames = createRainbowFrameBytes();
@@ -103,14 +101,6 @@ public class RainbowFrame {
 
 	public void setMsgId(byte[] msgId) {
 		this.msgId = msgId;
-	}
-
-	public String getMsgTypeKey() {
-		return msgTypeKey;
-	}
-
-	public void setMsgTypeKey(String msgTypeKey) {
-		this.msgTypeKey = msgTypeKey;
 	}
 
 	public byte[] getMsgType() {

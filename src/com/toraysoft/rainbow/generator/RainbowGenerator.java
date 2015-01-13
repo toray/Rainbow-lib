@@ -51,47 +51,47 @@ public class RainbowGenerator {
 	}
 
 	public static RainbowFrame getSendFrameNormal(Rainbow rainbow,
-			boolean isResend, byte[] msgId, String msgTypeKey, byte[] data,
+			boolean isResend, byte[] msgId, byte[] msgType, byte[] data,
 			OnRainbowRequestListener l) {
-		return getRainbowFrame(rainbow, isResend, msgId, msgTypeKey, data,
+		return getRainbowFrame(rainbow, isResend, msgId, msgType, data,
 				PROTOCOL_TYPE.PROTOCOL_SEND, QOS_TYPE.QOS_NORMAL, l);
 	}
 
 	public static RainbowFrame getSendFrameLeastOne(Rainbow rainbow,
-			boolean isResend, byte[] msgId, String msgTypeKey, byte[] data,
+			boolean isResend, byte[] msgId, byte[] msgType, byte[] data,
 			OnRainbowRequestListener l) {
-		return getRainbowFrame(rainbow, isResend, msgId, msgTypeKey, data,
+		return getRainbowFrame(rainbow, isResend, msgId, msgType, data,
 				PROTOCOL_TYPE.PROTOCOL_SEND, QOS_TYPE.QOS_LEAST_ONES, l);
 	}
 
 	public static RainbowFrame getSendFrameOnlyOne(Rainbow rainbow,
-			boolean isResend, byte[] msgId, String msgTypeKey, byte[] data,
+			boolean isResend, byte[] msgId, byte[] msgType, byte[] data,
 			OnRainbowRequestListener l) {
-		return getRainbowFrame(rainbow, isResend, msgId, msgTypeKey, data,
+		return getRainbowFrame(rainbow, isResend, msgId, msgType, data,
 				PROTOCOL_TYPE.PROTOCOL_SEND, QOS_TYPE.QOS_ONLY_ONES, l);
 	}
 
 	public static RainbowFrame getAckFrameNormal(Rainbow rainbow,
-			boolean isResend, byte[] msgId, String msgTypeKey, byte[] data) {
-		return getRainbowFrame(rainbow, isResend, msgId, msgTypeKey, data,
+			boolean isResend, byte[] msgId, byte[] msgType, byte[] data) {
+		return getRainbowFrame(rainbow, isResend, msgId, msgType, data,
 				PROTOCOL_TYPE.PROTOCOL_ACK, QOS_TYPE.QOS_NORMAL, null);
 	}
 
 	public static RainbowFrame getRecFrameNormal(Rainbow rainbow,
-			boolean isResend, byte[] msgId, String msgTypeKey, byte[] data) {
-		return getRainbowFrame(rainbow, isResend, msgId, msgTypeKey, data,
+			boolean isResend, byte[] msgId, byte[] msgType, byte[] data) {
+		return getRainbowFrame(rainbow, isResend, msgId, msgType, data,
 				PROTOCOL_TYPE.PROTOCOL_REC, QOS_TYPE.QOS_NORMAL, null);
 	}
 
 	public static RainbowFrame getRelFrameNormal(Rainbow rainbow,
-			boolean isResend, byte[] msgId, String msgTypeKey, byte[] data) {
-		return getRainbowFrame(rainbow, isResend, msgId, msgTypeKey, data,
+			boolean isResend, byte[] msgId, byte[] msgType, byte[] data) {
+		return getRainbowFrame(rainbow, isResend, msgId, msgType, data,
 				PROTOCOL_TYPE.PROTOCOL_REL, QOS_TYPE.QOS_NORMAL, null);
 	}
 
 	public static RainbowFrame getComFrameNormal(Rainbow rainbow,
-			boolean isResend, byte[] msgId, String msgTypeKey, byte[] data) {
-		return getRainbowFrame(rainbow, isResend, msgId, msgTypeKey, data,
+			boolean isResend, byte[] msgId, byte[] msgType, byte[] data) {
+		return getRainbowFrame(rainbow, isResend, msgId, msgType, data,
 				PROTOCOL_TYPE.PROTOCOL_COM, QOS_TYPE.QOS_NORMAL, null);
 	}
 
@@ -103,10 +103,10 @@ public class RainbowGenerator {
 	}
 
 	private static RainbowFrame getRainbowFrame(Rainbow rainbow,
-			boolean isResend, byte[] msgId, String msgTypeKey, byte[] data,
+			boolean isResend, byte[] msgId, byte[] msgType, byte[] data,
 			PROTOCOL_TYPE typeProtocol, QOS_TYPE typeQOS,
 			OnRainbowRequestListener l) {
-		return new RainbowFrame(rainbow, isResend, msgId, msgTypeKey, data,
+		return new RainbowFrame(rainbow, isResend, msgId, msgType, data,
 				typeProtocol, typeQOS, l);
 	}
 

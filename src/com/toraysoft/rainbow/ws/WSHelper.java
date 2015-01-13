@@ -17,6 +17,7 @@ import com.toraysoft.rainbow.generator.ProtocolGenerator;
 import com.toraysoft.rainbow.generator.ProtocolGenerator.PROTOCOL_TYPE;
 import com.toraysoft.rainbow.generator.ProtocolGenerator.QOS_TYPE;
 import com.toraysoft.rainbow.listener.WebSocketClientListener;
+import com.toraysoft.rainbow.util.ByteUtil;
 import com.toraysoft.rainbow.util.LogUtil;
 
 public class WSHelper {
@@ -244,12 +245,11 @@ public class WSHelper {
 	private void wsParseRainbowSendNormal(byte[] msgType, byte[] data) {
 		try {
 			String dataStr = new String(data, CHARSET);
-			String msgTypeStr = mRainbow.getRainbowMeta()
-					.getMsgTypeKey(msgType);
+			String msgTypeStr = ByteUtil.getIntShort(msgType) + "";
 			LogUtil.d(TAG, "wsParseRainbowSendNormal: msgType:" + msgTypeStr
 					+ " --- data:" + dataStr);
 			if (mRainbow.getRainbowListener() != null) {
-				mRainbow.getRainbowListener().onRainbowMessage(msgTypeStr,
+				mRainbow.getRainbowListener().onRainbowMessage(ByteUtil.getIntShort(msgType),
 						dataStr);
 			}
 		} catch (UnsupportedEncodingException e) {
@@ -261,14 +261,13 @@ public class WSHelper {
 			byte[] data) {
 		try {
 			String dataStr = new String(data, CHARSET);
-			String msgTypeStr = mRainbow.getRainbowMeta()
-					.getMsgTypeKey(msgType);
+			String msgTypeStr = ByteUtil.getIntShort(msgType) + "";
 			LogUtil.d(TAG, "wsParseRainbowSendLeastOne: msgType:" + msgTypeStr
 					+ " --- msgId:" + ProtocolGenerator.getMessageId(msgId)
 					+ " --- data:" + dataStr);
 			if (mRainbow.getRainbowListener() != null) {
 				String res = mRainbow.getRainbowListener().onRainbowMessage(
-						msgTypeStr, dataStr);
+						ByteUtil.getIntShort(msgType), dataStr);
 				byte[] resbytes = null;
 				if (res != null)
 					resbytes = res.getBytes();
@@ -285,14 +284,13 @@ public class WSHelper {
 			byte[] data) {
 		try {
 			String dataStr = new String(data, CHARSET);
-			String msgTypeStr = mRainbow.getRainbowMeta()
-					.getMsgTypeKey(msgType);
+			String msgTypeStr = ByteUtil.getIntShort(msgType) + "";
 			LogUtil.d(TAG, "wsParseRainbowSendOnlyOne: msgType:" + msgTypeStr
 					+ " --- msgId:" + ProtocolGenerator.getMessageId(msgId)
 					+ " --- data:" + dataStr);
 			if (mRainbow.getRainbowListener() != null) {
 				String res = mRainbow.getRainbowListener().onRainbowMessage(
-						msgTypeStr, dataStr);
+						ByteUtil.getIntShort(msgType), dataStr);
 				byte[] resbytes = null;
 				if (res != null)
 					resbytes = res.getBytes();

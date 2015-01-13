@@ -69,10 +69,6 @@ public class RequestController {
 		return mRainbowFrame.getData();
 	}
 
-	public String getMsgTypeKey() {
-		return mRainbowFrame.getMsgTypeKey();
-	}
-	
 	public void setResponseData(byte[] data) {
 		mRainbowFrame.setResponseData(data);
 	}

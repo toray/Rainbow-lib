@@ -327,7 +327,11 @@ public class WSHelper {
 				msgIdInt)) {
 			RequestController request = mRainbow.getRainbowController()
 					.getRequestControllerLocal(msgIdInt);
+			if(mRainbow.isDebug()) {
+				LogUtil.d(TAG, "====rainbow sdk========>>>ack---msgType:" + request.getMsgType() + "  msgID:" + request.getRequestID());
+			}
 			request.finish();
+			
 			mRainbow.getRainbowController().removeRequestControllerLocal(
 					msgIdInt);
 			if (request.getOnRainbowRequestListener() != null) {
@@ -364,6 +368,9 @@ public class WSHelper {
 				msgIdInt)) {
 			RequestController request = mRainbow.getRainbowController()
 					.getRequestControllerLocal(msgIdInt);
+			if(mRainbow.isDebug()) {
+				LogUtil.d(TAG, "====rainbow sdk========>>>rec---msgType:" + request.getMsgType() + "  msgID:" + request.getRequestID());
+			}
 			request.setResponseData(data);
 		}
 		if (client != null)
@@ -375,9 +382,10 @@ public class WSHelper {
 		byte[] msgId = new byte[ProtocolGenerator.COMMON_BYTE_LEGTH];
 		System.arraycopy(frame, ProtocolGenerator.SECOND_BYTE_OFFSET, msgId, 0,
 				ProtocolGenerator.COMMON_BYTE_LEGTH);
+		int msgIdInt = ProtocolGenerator.getMessageId(msgId);
 		if (mRainbow.isDebug()) {
 			String log = "wsParseRainbowRel: msgId:"
-					+ ProtocolGenerator.getMessageId(msgId);
+					+ msgIdInt;
 			LogUtil.d(TAG, log);
 		}
 		if (client != null)
@@ -397,6 +405,9 @@ public class WSHelper {
 				msgIdInt)) {
 			RequestController request = mRainbow.getRainbowController()
 					.getRequestControllerLocal(msgIdInt);
+			if(mRainbow.isDebug()) {
+				LogUtil.d(TAG, "====rainbow sdk========>>>rec---msgType:" + request.getMsgType() + "  msgID:" + request.getRequestID());
+			}
 			request.finish();
 			mRainbow.getRainbowController().removeRequestControllerLocal(
 					msgIdInt);

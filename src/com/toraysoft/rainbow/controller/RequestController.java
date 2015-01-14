@@ -7,6 +7,7 @@ import com.toraysoft.rainbow.common.RainbowMeta;
 import com.toraysoft.rainbow.common.RainbowFrame;
 import com.toraysoft.rainbow.generator.ProtocolGenerator;
 import com.toraysoft.rainbow.listener.OnRainbowRequestListener;
+import com.toraysoft.rainbow.util.ByteUtil;
 import com.toraysoft.rainbow.Rainbow;
 
 public class RequestController {
@@ -88,6 +89,10 @@ public class RequestController {
 	private void resend() {
 		mRainbowFrame.setResend(true);
 		mRainbow.getWsHelper().send(mRainbowFrame.getFrames());
+	}
+	
+	public int getMsgType() {
+		return ByteUtil.getIntShort(mRainbowFrame.getMsgType());
 	}
 
 }

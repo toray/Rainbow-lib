@@ -406,7 +406,7 @@ public class WSHelper {
 			RequestController request = mRainbow.getRainbowController()
 					.getRequestControllerLocal(msgIdInt);
 			if(mRainbow.isDebug()) {
-				LogUtil.d(TAG, "====rainbow sdk========>>>rec---msgType:" + request.getMsgType() + "  msgID:" + request.getRequestID());
+				LogUtil.d(TAG, "====rainbow sdk========>>>com---msgType:" + request.getMsgType() + "  msgID:" + request.getRequestID());
 			}
 			request.finish();
 			mRainbow.getRainbowController().removeRequestControllerLocal(

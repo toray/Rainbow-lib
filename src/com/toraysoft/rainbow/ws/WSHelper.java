@@ -338,7 +338,7 @@ public class WSHelper {
 				try {
 					String dataStr = new String(data, CHARSET);
 					request.getOnRainbowRequestListener().onSuccess(dataStr);
-				} catch (UnsupportedEncodingException e) {
+				} catch (Throwable e) {
 					e.printStackTrace();
 				}
 			}
@@ -416,7 +416,7 @@ public class WSHelper {
 					String dataStr = new String(request.getResponseData(),
 							CHARSET);
 					request.getOnRainbowRequestListener().onSuccess(dataStr);
-				} catch (UnsupportedEncodingException e) {
+				} catch (Throwable e) {
 					e.printStackTrace();
 				}
 			}

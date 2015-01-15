@@ -42,7 +42,11 @@ public class RequestController {
 					mRainbow.getRainbowController()
 							.removeRequestControllerLocal(getRequestID());
 					if (mRainbowFrame.getOnRainbowRequestListener() != null) {
-						 mRainbowFrame.getOnRainbowRequestListener().onTimeout();
+						try {
+							mRainbowFrame.getOnRainbowRequestListener().onTimeout();	
+						} catch (Throwable e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}

@@ -105,6 +105,9 @@ public class WSHelper {
 	}
 
 	public void send(byte[] data) {
+		if(mRainbow.isDebug()) {
+			LogUtil.d(TAG, "----rainbow sdk--->>>send====>>>client:" + client + "   isConnected:"+ isConnected);
+		}
 		if (client != null && isConnected) {
 			try {
 				LogUtil.d(TAG, "------->>>send:" + new String(data, "UTF-8"));

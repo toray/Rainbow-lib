@@ -3,12 +3,14 @@ package com.toraysoft.rainbow.controller;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.toraysoft.rainbow.common.RainbowMeta;
+import com.toraysoft.rainbow.Rainbow;
 import com.toraysoft.rainbow.common.RainbowFrame;
+import com.toraysoft.rainbow.common.RainbowMeta;
 import com.toraysoft.rainbow.generator.ProtocolGenerator;
 import com.toraysoft.rainbow.listener.OnRainbowRequestListener;
+import com.toraysoft.rainbow.listener.OnRainbowRequestListener.RAINBOW_ERR;
 import com.toraysoft.rainbow.util.ByteUtil;
-import com.toraysoft.rainbow.Rainbow;
+import com.toraysoft.rainbow.util.LogUtil;
 
 public class RequestController {
 
@@ -23,10 +25,13 @@ public class RequestController {
 		isSending = true;
 		rainbow.getRainbowController().putRequestControllerLocal(
 				getRequestID(), this);
-		send();
-		mTimer = new Timer(true);
-		mTimer.schedule(mTimerTask, RainbowMeta.WEBSOCKE_TTIMEOUT,
-				RainbowMeta.WEBSOCKE_TTIMEOUT);
+		if(send()) {
+			mTimer = new Timer(true);
+			mTimer.schedule(mTimerTask, RainbowMeta.WEBSOCKE_TTIMEOUT,
+					RainbowMeta.WEBSOCKE_TTIMEOUT);	
+		} else {
+			isSending = false;			
+		}
 	}
 
 	TimerTask mTimerTask = new TimerTask() {
@@ -86,8 +91,12 @@ public class RequestController {
 		return mRainbowFrame.getOnRainbowRequestListener();
 	}
 
-	private void send() {
-		mRainbow.getWsHelper().send(mRainbowFrame.getFrames());
+	private boolean send() {
+		if(checkWebSocketAlive()) {
+			mRainbow.getWsHelper().send(mRainbowFrame.getFrames());
+			return true;
+		}
+		return false;
 	}
 
 	private void resend() {
@@ -97,6 +106,23 @@ public class RequestController {
 	
 	public int getMsgType() {
 		return ByteUtil.getIntShort(mRainbowFrame.getMsgType());
+	}
+	
+	private boolean checkWebSocketAlive() {
+		if(!mRainbow.getWsHelper().isConnected()){
+			LogUtil.d("RequestController", "rainbow may not connect now!!!");
+			mRainbow.getRainbowController()
+					.removeRequestControllerLocal(getRequestID());
+			if (mRainbowFrame.getOnRainbowRequestListener() != null) {
+				try {
+					mRainbowFrame.getOnRainbowRequestListener().onRainbowError(RAINBOW_ERR.NOT_CONNECT);
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
+			}
+			return false;
+		}
+		return true;
 	}
 
 }

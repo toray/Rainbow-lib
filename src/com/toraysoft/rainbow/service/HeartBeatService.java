@@ -39,8 +39,10 @@ public class HeartBeatService {
 	}
 
 	private void sendHeartBeat() {
-		LogUtil.d(TAG, "sendHeartBeat ping!!!");
-		mRainbow.getWsHelper().ping();
+		if(mRainbow.getWsHelper().isConnected()) {
+			LogUtil.d(TAG, "sendHeartBeat ping!!!");
+			mRainbow.getWsHelper().ping();			
+		}
 	}
 
 }

@@ -146,8 +146,14 @@ public class WSHelper {
 				mRainbow.getRainbowListener().onRainbowConnectionError(
 						error.getMessage());
 			}
-			if (autoReconnect)
-				connect();
+			if (autoReconnect) {
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				connect();				
+			}
 		}
 
 		@Override
@@ -159,8 +165,14 @@ public class WSHelper {
 			if (mRainbow.getRainbowListener() != null) {
 				mRainbow.getRainbowListener().onRainbowDisconnect(code, reason);
 			}
-			if (autoReconnect)
+			if (autoReconnect) {
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				connect();
+			}
 		}
 
 		@Override

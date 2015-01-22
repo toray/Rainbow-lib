@@ -52,6 +52,8 @@ public class RequestController {
 						} catch (Throwable e) {
 							e.printStackTrace();
 						}
+					} else {
+						LogUtil.d("=======OnRainbowRequestListener is null=======");
 					}
 				}
 			}

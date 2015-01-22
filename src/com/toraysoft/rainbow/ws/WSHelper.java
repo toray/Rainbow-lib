@@ -61,8 +61,10 @@ public class WSHelper {
 		if (mRainbow.isDebug())
 			LogUtil.d(TAG, "client connect : " + client);
 		if (client != null) {
-			if (headers != null)
+			LogUtil.d(TAG, "==========client connect client != null==========");
+			if (headers != null) {
 				headers.clear();
+			}
 			headers = getExtraHeaders(mRainbow.getRainbowMeta().getHeaders());
 			client.setExtraHeaders(headers);
 			client.connect();

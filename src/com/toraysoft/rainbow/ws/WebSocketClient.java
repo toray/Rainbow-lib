@@ -27,6 +27,8 @@ import org.apache.http.client.HttpResponseException;
 import org.apache.http.message.BasicLineParser;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.widget.SlidingDrawer;
+
 import com.toraysoft.rainbow.listener.WebSocketClientListener;
 import com.toraysoft.rainbow.util.Base64;
 import com.toraysoft.rainbow.util.LogUtil;

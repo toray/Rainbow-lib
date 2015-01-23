@@ -39,6 +39,10 @@ public class WSHelper {
 			headers.clear();
 		}
 		headers = getExtraHeaders(mRainbow.getRainbowMeta().getHeaders());
+		if(client != null) {
+			client.disconnect();
+			client = null;
+		}
 		client = new WebSocketClient(URI.create(mRainbow.getRainbowMeta()
 				.getHost()), mListener, headers);
 		autoReconnect = mRainbow.getRainbowMeta().isAutoReconnect();
@@ -147,11 +151,11 @@ public class WSHelper {
 						error.getMessage());
 			}
 			if (autoReconnect) {
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					Thread.sleep(2000);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
 				connect();				
 			}
 		}
@@ -166,11 +170,11 @@ public class WSHelper {
 				mRainbow.getRainbowListener().onRainbowDisconnect(code, reason);
 			}
 			if (autoReconnect) {
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					Thread.sleep(2000);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
 				connect();
 			}
 		}

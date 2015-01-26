@@ -151,11 +151,11 @@ public class WSHelper {
 						error.getMessage());
 			}
 			if (autoReconnect) {
-//				try {
-//					Thread.sleep(2000);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				connect();				
 			}
 		}
@@ -170,11 +170,11 @@ public class WSHelper {
 				mRainbow.getRainbowListener().onRainbowDisconnect(code, reason);
 			}
 			if (autoReconnect) {
-//				try {
-//					Thread.sleep(2000);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				connect();
 			}
 		}

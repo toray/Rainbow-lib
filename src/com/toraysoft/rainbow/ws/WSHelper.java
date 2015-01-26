@@ -116,7 +116,8 @@ public class WSHelper {
 		}
 		if (client != null && isConnected) {
 			try {
-				LogUtil.d(TAG, "------->>>send:" + new String(data, "UTF-8"));
+				if(mRainbow.isDebug())
+					LogUtil.d(TAG, "------->>>send:" + new String(data, "UTF-8"));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
@@ -267,8 +268,9 @@ public class WSHelper {
 		try {
 			String dataStr = new String(data, CHARSET);
 			String msgTypeStr = ByteUtil.getIntShort(msgType) + "";
-			LogUtil.d(TAG, "wsParseRainbowSendNormal: msgType:" + msgTypeStr
-					+ " --- data:" + dataStr);
+			if(mRainbow.isDebug())
+				LogUtil.d(TAG, "wsParseRainbowSendNormal: msgType:" + msgTypeStr
+						+ " --- data:" + dataStr);
 			if (mRainbow.getRainbowListener() != null) {
 				mRainbow.getRainbowListener().onRainbowMessage(ByteUtil.getIntShort(msgType),
 						dataStr);
@@ -283,9 +285,10 @@ public class WSHelper {
 		try {
 			String dataStr = new String(data, CHARSET);
 			String msgTypeStr = ByteUtil.getIntShort(msgType) + "";
-			LogUtil.d(TAG, "wsParseRainbowSendLeastOne: msgType:" + msgTypeStr
-					+ " --- msgId:" + ProtocolGenerator.getMessageId(msgId)
-					+ " --- data:" + dataStr);
+			if(mRainbow.isDebug())
+				LogUtil.d(TAG, "wsParseRainbowSendLeastOne: msgType:" + msgTypeStr
+						+ " --- msgId:" + ProtocolGenerator.getMessageId(msgId)
+						+ " --- data:" + dataStr);
 			if (mRainbow.getRainbowListener() != null) {
 				String res = mRainbow.getRainbowListener().onRainbowMessage(
 						ByteUtil.getIntShort(msgType), dataStr);
@@ -306,9 +309,10 @@ public class WSHelper {
 		try {
 			String dataStr = new String(data, CHARSET);
 			String msgTypeStr = ByteUtil.getIntShort(msgType) + "";
-			LogUtil.d(TAG, "wsParseRainbowSendOnlyOne: msgType:" + msgTypeStr
-					+ " --- msgId:" + ProtocolGenerator.getMessageId(msgId)
-					+ " --- data:" + dataStr);
+			if(mRainbow.isDebug())
+				LogUtil.d(TAG, "wsParseRainbowSendOnlyOne: msgType:" + msgTypeStr
+						+ " --- msgId:" + ProtocolGenerator.getMessageId(msgId)
+						+ " --- data:" + dataStr);
 			if (mRainbow.getRainbowListener() != null) {
 				String res = mRainbow.getRainbowListener().onRainbowMessage(
 						ByteUtil.getIntShort(msgType), dataStr);
@@ -420,7 +424,8 @@ public class WSHelper {
 				ProtocolGenerator.COMMON_BYTE_LEGTH);
 		int msgIdInt = ProtocolGenerator.getMessageId(msgId);
 		String log = "wsParseRainbowCom: msgId:" + msgIdInt;
-		LogUtil.d(TAG, log);
+		if(mRainbow.isDebug())
+			LogUtil.d(TAG, log);
 
 		if (mRainbow.getRainbowController().isRequestControllerLocalExist(
 				msgIdInt)) {

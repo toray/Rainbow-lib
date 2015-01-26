@@ -19,7 +19,8 @@ public class MessageIDGenerator {
 		if (msgId > MAX_ID) {
 			msgId = 0;
 		}
-		LogUtil.d(TAG, "getMsgId : " + msgId);
+		if (mRainbow.isDebug())
+			LogUtil.d(TAG, "getMsgId : " + msgId);
 		return msgId;
 	}
 

@@ -35,14 +35,14 @@ public class WSHelper {
 	}
 
 	public void wsClient() {
-		if (headers != null) {
-			headers.clear();
-		}
-		headers = getExtraHeaders(mRainbow.getRainbowMeta().getHeaders());
 		if(client != null) {
 			client.disconnect();
 			client = null;
 		}
+		if (headers != null) {
+			headers.clear();
+		}
+		headers = getExtraHeaders(mRainbow.getRainbowMeta().getHeaders());
 		client = new WebSocketClient(URI.create(mRainbow.getRainbowMeta()
 				.getHost()), mListener, headers);
 		autoReconnect = mRainbow.getRainbowMeta().isAutoReconnect();

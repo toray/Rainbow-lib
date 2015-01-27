@@ -10,4 +10,6 @@ public interface RainbowListener {
 
 	void onRainbowConnectionError(String message);
 	
+	void onRainbowLog(String log);
+	
 }

@@ -14,6 +14,7 @@ import com.toraysoft.rainbow.util.LogUtil;
 
 public class RequestController {
 
+	private static final String TAG = "RequestController";
 	private Rainbow mRainbow;
 	private RainbowFrame mRainbowFrame;
 	private Timer mTimer;
@@ -112,7 +113,10 @@ public class RequestController {
 	
 	private boolean checkWebSocketAlive() {
 		if(!mRainbow.getWsHelper().isConnected()){
-			LogUtil.d("RequestController", "rainbow may not connect now!!!");
+			String log = " rainbow may not connect now!!!";
+			LogUtil.d(TAG, log);
+			if(mRainbow.getRainbowListener() != null)
+				mRainbow.getRainbowListener().onRainbowLog(TAG + log);
 			mRainbow.getRainbowController()
 					.removeRequestControllerLocal(getRequestID());
 			if (mRainbowFrame.getOnRainbowRequestListener() != null) {

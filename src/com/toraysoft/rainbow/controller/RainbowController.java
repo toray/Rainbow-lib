@@ -23,8 +23,12 @@ public class RainbowController {
 	public boolean putRequestControllerLocal(int msgId, RequestController r) {
 		if (localRequest != null) {
 			localRequest.put(msgId, r);
-			if (mRainbow.isDebug())
-				LogUtil.d(TAG, "putRequestControllerLocal msgId:" + msgId);
+			if (mRainbow.isDebug()) {
+				String log = " putRequestControllerLocal msgId:" + msgId;
+				LogUtil.d(TAG, log);
+				if(mRainbow.getRainbowListener() != null)
+					mRainbow.getRainbowListener().onRainbowLog(TAG + log);
+			}
 			return true;
 		}
 		return false;
@@ -32,8 +36,12 @@ public class RainbowController {
 
 	public void removeRequestControllerLocal(int msgId) {
 		if (localRequest != null) {
-			if (mRainbow.isDebug())
-				LogUtil.d(TAG, "removeRequestControllerLocal msgId:" + msgId);
+			if (mRainbow.isDebug()) {
+				String log = " removeRequestControllerLocal msgId:" + msgId;
+				LogUtil.d(TAG, log);
+				if(mRainbow.getRainbowListener() != null)
+					mRainbow.getRainbowListener().onRainbowLog(TAG + " removeRequestControllerLocal msgId:" + msgId);
+			}
 			localRequest.remove(msgId);
 		}
 	}

@@ -45,6 +45,8 @@ public class WebSocketClient {
 	private final Object mSendLock = new Object();
 
 	private static TrustManager[] sTrustManagers;
+	
+	private long heartBeatInterval = System.currentTimeMillis();
 
 	public static void setTrustManagers(TrustManager[] tm) {
 		sTrustManagers = tm;
@@ -69,7 +71,7 @@ public class WebSocketClient {
 
 	public void connect() {
 		if (mThread != null && mThread.isAlive()) {
-			LogUtil.d(TAG, "==========connect thread != null && mThread.isAlive==========");
+			LogUtil.d(TAG, "==========connect thread=" + mThread + " && mThread.isAlive=" + mThread.isAlive());
 			return;
 		}
 
@@ -159,15 +161,18 @@ public class WebSocketClient {
 
 				} catch (EOFException ex) {
 					LogUtil.d(TAG, "WebSocket EOF!");
+					reset();
 					mListener.onDisconnect(0, "EOF");
 
 				} catch (SSLException ex) {
 					// Connection reset by peer
 					LogUtil.d(TAG, "Websocket SSL error!");
+					reset();
 					mListener.onDisconnect(0, "SSL");
 
 				} catch (Exception ex) {
 					LogUtil.d(TAG, "Websocket error!");
+					reset();
 					mListener.onError(ex);
 				}
 			}
@@ -285,8 +290,30 @@ public class WebSocketClient {
 
 	public void ping() {
 		if (mParser != null) {
-			mParser.ping("".getBytes());
+			mParser.ping(new byte[0]);
 		}
+	}
+	
+	public void reset() {
+		if (mThread != null) {
+			if (mSocket != null) {
+				try {
+					mSocket.close();
+					mSocket = null;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}							
+			}
+			mThread = null;
+		}
+	}
+
+	public long getHeartBeatInterval() {
+		return heartBeatInterval;
+	}
+
+	public void setHeartBeatInterval(long heartBeatInterval) {
+		this.heartBeatInterval = heartBeatInterval;
 	}
 
 }

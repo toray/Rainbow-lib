@@ -52,7 +52,7 @@ public class HybiParser {
     private static final int OP_CLOSE        =  8;
     private static final int OP_PING         =  9;
     private static final int OP_PONG         = 10;
-
+    
     private static final List<Integer> OPCODES = Arrays.asList(
         OP_CONTINUATION,
         OP_TEXT,
@@ -216,7 +216,8 @@ public class HybiParser {
     }
 
     public void ping(byte[] message) {
-        mClient.send(frame(message, OP_PING, -1));
+        mClient.sendFrame(frame(message, OP_PING, -1));
+        checkHeartBeatEff();
     }
 
     public void close(int code, String reason) {
@@ -274,7 +275,9 @@ public class HybiParser {
 
         } else if (opcode == OP_PONG) {
             String message = encode(payload);
-            LogUtil.d(TAG, "Got pong! " + message);            	
+            LogUtil.d(TAG, "Got pong! " + message);   
+            if (mClient != null)
+            	mClient.setHeartBeatInterval(System.currentTimeMillis());
         }
     }
 
@@ -340,6 +343,14 @@ public class HybiParser {
             readFully(buffer);
             return buffer;
         }
+    }
+    
+    private void checkHeartBeatEff() {
+    	if(mClient !=null && System.currentTimeMillis() - mClient.getHeartBeatInterval() > 40000) {
+    		if (mClient.getListener() != null)
+    			mClient.reset();
+//    			mClient.getListener().onError(new Exception("not got pong!"));
+    	}
     }
     
 }

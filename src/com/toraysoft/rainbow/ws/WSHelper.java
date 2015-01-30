@@ -84,15 +84,7 @@ public class WSHelper {
 		if (client != null) {
 			autoReconnect = false;
 			mRainbow.getRainbowMeta().setAutoReconnect(false);
-			if (mRainbow.getRainbowMeta().isHeartBeatActive()) {
-				try {
-					mRainbow.getHeartBeatService().stop();
-				} catch (Throwable t) {
-					if (mRainbow.isDebug())
-						LogUtil.d(TAG, "Disconnect heartbeat service error : "
-								+ t.getMessage());
-				}
-			}
+			stopHeartBeatService();
 			mRainbow.getRainbowController().cleanAllRequestTimeout();
 			client.disconnect();
 			client = null;
@@ -159,6 +151,7 @@ public class WSHelper {
 						"WebSocketClient.Listener onError : "
 								+ error.getMessage());
 			isConnected = false;
+			stopHeartBeatService();
 			if (mRainbow.getRainbowListener() != null) {
 				mRainbow.getRainbowListener().onRainbowConnectionError(
 						error.getMessage());
@@ -179,6 +172,7 @@ public class WSHelper {
 				LogUtil.d(TAG, "WebSocketClient.Listener onDisconnect : code="
 						+ code + " -- reason=" + reason);
 			isConnected = false;
+			stopHeartBeatService();
 			if (mRainbow.getRainbowListener() != null) {
 				mRainbow.getRainbowListener().onRainbowDisconnect(code, reason);
 			}
@@ -200,6 +194,8 @@ public class WSHelper {
 			if (mRainbow.getRainbowListener() != null) {
 				mRainbow.getRainbowListener().onRainbowConnect();
 			}
+			if (client != null)
+				client.setHeartBeatInterval(System.currentTimeMillis());
 			if (!mRainbow.getRainbowMeta().isHeartBeatActive()) {
 				try {
 					mRainbow.getHeartBeatService().doInBackground();
@@ -487,6 +483,18 @@ public class WSHelper {
 				} catch (Throwable e) {
 					e.printStackTrace();
 				}
+			}
+		}
+	}
+	
+	private void stopHeartBeatService() {
+		if (mRainbow.getRainbowMeta().isHeartBeatActive()) {
+			try {
+				mRainbow.getHeartBeatService().stop();
+			} catch (Throwable t) {
+				if (mRainbow.isDebug())
+					LogUtil.d(TAG, "Disconnect heartbeat service error : "
+							+ t.getMessage());
 			}
 		}
 	}

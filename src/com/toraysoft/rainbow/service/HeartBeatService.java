@@ -16,6 +16,16 @@ public class HeartBeatService {
 
 	public HeartBeatService(Rainbow rainbow) {
 		this.mRainbow = rainbow;
+	}
+
+	public void doInBackground() {
+		LogUtil.d(TAG, "HeartBeatService started!!!!!");
+		mRainbow.getRainbowMeta().setHeartBeatActive(true);
+		mTimer = new Timer(true);
+		if (mTimerTask != null) {
+			mTimerTask.cancel();
+			mTimerTask = null;
+		}
 		mTimerTask = new TimerTask() {
 
 			@Override
@@ -23,18 +33,16 @@ public class HeartBeatService {
 				sendHeartBeat();
 			}
 		};
-	}
-
-	public void doInBackground() {
-		LogUtil.d(TAG, "HeartBeatService started!!!!!");
-		mRainbow.getRainbowMeta().setHeartBeatActive(true);
-		mTimer = new Timer(true);
 		mTimer.schedule(mTimerTask, TIME, TIME);
 	}
 
 	public void stop() {
 		LogUtil.d(TAG, "HeartBeatService stoped!!!!!");
-		mTimer.cancel();
+		if (mTimerTask != null)
+			mTimerTask.cancel();
+		if (mTimer != null)
+			mTimer.cancel();
+		mTimer = null;
 		mRainbow.getRainbowMeta().setHeartBeatActive(false);
 	}
 

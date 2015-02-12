@@ -28,8 +28,8 @@ public class RequestController {
 				getRequestID(), this);
 		if(send()) {
 			mTimer = new Timer(true);
-			mTimer.schedule(mTimerTask, RainbowMeta.WEBSOCKE_TTIMEOUT,
-					RainbowMeta.WEBSOCKE_TTIMEOUT);	
+			mTimer.schedule(mTimerTask, RainbowMeta.WEBSOCKET_TTIMEOUT,
+					RainbowMeta.WEBSOCKET_TTIMEOUT);	
 		} else {
 			isSending = false;			
 		}

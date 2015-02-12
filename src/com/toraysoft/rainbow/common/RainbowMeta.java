@@ -14,7 +14,7 @@ public class RainbowMeta {
 	private Map<String, String> headers;
 	private boolean isHeartBeatActive = false;
 	private int rainbowTimeout;
-	public static int WEBSOCKE_TTIMEOUT = 5000;
+	public static int WEBSOCKET_TTIMEOUT = 5000;
 
 	public Map<String, byte[]> msgTypeMap;
 

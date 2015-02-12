@@ -13,27 +13,27 @@ public class FrameController {
 				msgType, data, l);
 	}
 
-	public static RainbowFrame getRainbowSendLeastOne(Rainbow rainbow,
+	public static RainbowFrame getRainbowSendLeastOnes(Rainbow rainbow,
 			byte[] msgType, byte[] data, OnRainbowRequestListener l) {
-		return RainbowGenerator.getSendFrameLeastOne(rainbow, false, rainbow
+		return RainbowGenerator.getSendFrameLeastOnes(rainbow, false, rainbow
 				.getMessageIDGenerator().getMsgIdByte(), msgType, data, l);
 	}
 
-	public static RainbowFrame getRainbowSendLeastOne(Rainbow rainbow,
+	public static RainbowFrame getRainbowSendLeastOnes(Rainbow rainbow,
 			boolean isResend, byte[] msgId, byte[] msgType, byte[] data, OnRainbowRequestListener l) {
-		return RainbowGenerator.getSendFrameLeastOne(rainbow, isResend, msgId,
+		return RainbowGenerator.getSendFrameLeastOnes(rainbow, isResend, msgId,
 				msgType, data, l);
 	}
 
-	public static RainbowFrame getRainbowSendOnlyOne(Rainbow rainbow,
+	public static RainbowFrame getRainbowSendOnlyOnes(Rainbow rainbow,
 			byte[] msgType, byte[] data, OnRainbowRequestListener l) {
-		return RainbowGenerator.getSendFrameOnlyOne(rainbow, false, rainbow
+		return RainbowGenerator.getSendFrameOnlyOnes(rainbow, false, rainbow
 				.getMessageIDGenerator().getMsgIdByte(), msgType, data, l);
 	}
 
-	public static RainbowFrame getRainbowSendOnlyOne(Rainbow rainbow,
+	public static RainbowFrame getRainbowSendOnlyOnes(Rainbow rainbow,
 			boolean isResend, byte[] msgId, byte[] msgType, byte[] data, OnRainbowRequestListener l) {
-		return RainbowGenerator.getSendFrameOnlyOne(rainbow, isResend, msgId,
+		return RainbowGenerator.getSendFrameOnlyOnes(rainbow, isResend, msgId,
 				msgType, data, l);
 	}
 

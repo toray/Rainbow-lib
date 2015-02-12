@@ -84,13 +84,13 @@ public class Rainbow {
 
 	private void sendRainbowLeastOnes(byte[] msgType, byte[] data,
 			OnRainbowRequestListener l) {
-		new RequestController(this, FrameController.getRainbowSendLeastOne(
+		new RequestController(this, FrameController.getRainbowSendLeastOnes(
 				this, msgType, data, l));
 	}
 
 	private void sendRainbowOnlyOnes(byte[] msgType, byte[] data,
 			OnRainbowRequestListener l) {
-		new RequestController(this, FrameController.getRainbowSendOnlyOne(this,
+		new RequestController(this, FrameController.getRainbowSendOnlyOnes(this,
 				msgType, data, l));
 	}
 

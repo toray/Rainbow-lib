@@ -57,14 +57,14 @@ public class RainbowGenerator {
 				PROTOCOL_TYPE.PROTOCOL_SEND, QOS_TYPE.QOS_NORMAL, l);
 	}
 
-	public static RainbowFrame getSendFrameLeastOne(Rainbow rainbow,
+	public static RainbowFrame getSendFrameLeastOnes(Rainbow rainbow,
 			boolean isResend, byte[] msgId, byte[] msgType, byte[] data,
 			OnRainbowRequestListener l) {
 		return getRainbowFrame(rainbow, isResend, msgId, msgType, data,
 				PROTOCOL_TYPE.PROTOCOL_SEND, QOS_TYPE.QOS_LEAST_ONES, l);
 	}
 
-	public static RainbowFrame getSendFrameOnlyOne(Rainbow rainbow,
+	public static RainbowFrame getSendFrameOnlyOnes(Rainbow rainbow,
 			boolean isResend, byte[] msgId, byte[] msgType, byte[] data,
 			OnRainbowRequestListener l) {
 		return getRainbowFrame(rainbow, isResend, msgId, msgType, data,

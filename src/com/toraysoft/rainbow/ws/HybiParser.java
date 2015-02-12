@@ -270,7 +270,7 @@ public class HybiParser {
 
         } else if (opcode == OP_PING) {
             if (payload.length > 125) { throw new ProtocolError("Ping payload too large"); }
-            LogUtil.d(TAG, "Sending ping!!");
+            LogUtil.d(TAG, "get ping!!");
             mClient.sendFrame(frame(payload, OP_PONG, -1));
 
         } else if (opcode == OP_PONG) {

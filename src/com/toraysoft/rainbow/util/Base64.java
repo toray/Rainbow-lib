@@ -95,7 +95,7 @@ public final class Base64 {
 		if (base64Data.length == 0)
 			return new byte[0];
 		if (base64Data.length % 4 != 0)
-			throw new IllegalArgumentException("��ݲ�������Ϊ�� "
+			throw new IllegalArgumentException("数据不完整，长度为： "
 					+ base64Data.length);
 
 		byte[] result = null;
